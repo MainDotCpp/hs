@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import {
   Card,
   CardActions,
@@ -7,30 +7,42 @@ import {
   IconButton,
   Paper,
   Typography,
-} from '@mui/material'
-import { t_page } from '@prisma/client'
-import { Favorite as FavoriteIcon } from '@material-ui/icons'
-import Link from 'next/link'
+} from '@mui/material';
+import { t_page } from '@prisma/client';
+import {
+  BarChart,
+  Edit,
+  Favorite as FavoriteIcon,
+  Subject,
+} from '@material-ui/icons';
+import Link from 'next/link';
 
 const PageCard = ({ page }: { page: t_page }) => {
   return (
     <Card>
       <CardHeader
-        title={<Typography>{page.title}</Typography>}
+        title={<Typography variant={'h5'}>{page.title}</Typography>}
         subheader={
-          <Typography>
-            访问量:{page.access_count} 阻止进入:{page.ban_count}
-          </Typography>
+          <>
+            <div>访问量: {page.access_count} 次</div>
+            <div>阻止进入: {page.ban_count} 次</div>
+          </>
         }></CardHeader>
       <CardActions>
         <Link href={'/admin/page-designer/' + page.id}>
           <IconButton>
-            <FavoriteIcon />
+            <Edit />
           </IconButton>
         </Link>
+        <IconButton>
+          <Subject />
+        </IconButton>
+        <IconButton>
+          <BarChart />
+        </IconButton>
       </CardActions>
     </Card>
-  )
-}
+  );
+};
 
-export default PageCard
+export default PageCard;

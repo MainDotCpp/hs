@@ -1,17 +1,17 @@
-'use client'
-import { Button } from '@mui/material'
+'use client';
+import { Button } from '@mui/material';
 
 const ComponentButton = ({
   name,
-  initialValue,
+  onClick,
 }: {
-  name: string
-  initialValue: any
+  name: string;
+  onClick: () => void;
 }) => {
   return (
-    <Button className='outline' fullWidth>
+    <Button className='outline' fullWidth onClick={onClick}>
       {name}
     </Button>
-  )
-}
-export default ComponentButton
+  );
+};
+export default ComponentButton;
