@@ -1,10 +1,11 @@
 import { BaseComponentType } from '@/app/components/component';
 import { Prisma } from '@prisma/client';
-import { Box, Button, Grid, Input, InputLabel, Slider } from '@mui/material';
-import Image from 'next/image';
+import { Button, Grid, Input, InputLabel, Slider } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { usePageStore } from '@/app/store/use-page-store';
+import { logClick } from '@/app/actions/page-actions';
+import { useParams, useRouter } from 'next/navigation';
 
 type ImageComponent = {
   src: string;
@@ -28,6 +29,7 @@ export const ImageComponent = ({
 }: {
   componentSchema: Prisma.JsonValue;
 }) => {
+  const params = useParams();
   const schema = componentSchema as ImageComponent;
   return (
     <div
@@ -43,6 +45,7 @@ export const ImageComponent = ({
         className={`w-full shadow-${shadowMap[schema.shadow_level]}  ${schema.link && 'cursor-pointer'}`}
         onClick={() => {
           if (schema.link) {
+            logClick(params.id).then();
             window.open(schema.link);
           }
         }}></img>

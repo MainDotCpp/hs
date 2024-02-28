@@ -24,4 +24,14 @@ model t_page {
   ban_count         Int       @default(0)
   access_count      Int       @default(0)
   content           Json?     @default("[]") @db.Json
+  status            Int       @default(0)
+  click_link_count  Int       @default(0)
+}
+
+model t_domain {
+  id        String   @id @db.Uuid
+  domain    String   @db.VarChar(255)
+  area      String   @db.VarChar(255)
+  status    Int      @default(0)
+  create_at DateTime @default(now()) @db.Timestamp(6)
 }

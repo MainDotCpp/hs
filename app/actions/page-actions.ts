@@ -22,3 +22,17 @@ export const logVisit = async (pageId: string, permit: boolean) => {
     },
   });
 };
+export const logClick = async (pageId: string) => {
+  const prisma = new PrismaClient();
+  const page = await prisma.t_page.findUnique({
+    where: {
+      id: pageId,
+    },
+  });
+  if (!page) return;
+  page.click_link_count += 1;
+  await prisma.t_page.update({
+    data: page,
+    where: { id: pageId },
+  });
+};

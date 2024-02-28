@@ -8,7 +8,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className='min-h-screen flex fixed top-0 w-screen'>
       <Sider></Sider>
-      <div className='flex-grow p-2'>{children}</div>
+      <div className='flex-grow px-8  py-4'>{children}</div>
     </main>
   );
 };

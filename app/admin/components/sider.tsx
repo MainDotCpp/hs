@@ -13,7 +13,7 @@ const Sider = () => {
         name='页面管理'
         icon='/static/home.png'></SiderItem>
       <SiderItem
-        href='/admin/page-manager'
+        href='/admin/domain'
         name='域名管理'
         icon='/static/domain.png'></SiderItem>
       <SiderItem
