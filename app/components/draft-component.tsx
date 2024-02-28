@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { usePageStore } from '@/app/store/use-page-store';
 import 'react-quill/dist/quill.snow.css';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Value } from 'react-quill';
 
 type DraftComponent = {
   content: string;
@@ -41,7 +41,7 @@ export const DraftConfig = ({
     <div>
       <ReactQuill
         theme='snow'
-        value={schema.content}
+        value={schema!!.content!! as Value}
         modules={{
           toolbar: [
             ['bold', 'italic', 'underline', 'strike'], // toggled buttons
