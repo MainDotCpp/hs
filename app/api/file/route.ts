@@ -18,7 +18,12 @@ export const POST = (req: NextRequest) => {
         );
       }
       console.log('登录成功', res);
-      const formData = await req.formData();
+      let formData;
+      try {
+        formData = await req.formData();
+      } catch (e) {
+        return NextResponse.json({});
+      }
       const file = formData.get('file') as File;
       const buffer = Buffer.from(await file.arrayBuffer());
       ftp.put(buffer, file.name, (err) => {
