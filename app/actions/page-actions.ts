@@ -1,7 +1,8 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, t_page } from '@prisma/client';
 import { mainDb } from '@/prisma/main-db';
+import { v4 as uuidV4 } from 'uuid';
 
 export const logVisit = async (pageId: string, permit: boolean) => {
   const page = await mainDb.t_page.findFirst({
@@ -35,5 +36,13 @@ export const logClick = async (pageId: string) => {
       },
     },
     where: { id: pageId },
+  });
+};
+
+export const createPage = async (page: t_page) => {
+  page.id = uuidV4();
+  console.log(`[创建页面] ${JSON.stringify(page)}`);
+  await mainDb.t_page.create({
+    data: page,
   });
 };

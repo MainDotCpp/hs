@@ -1,8 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import PageCard from './components/page-card';
-import { IconButton } from '@mui/material';
-import { Edit } from '@material-ui/icons';
 import ToolBar from '@/app/admin/page-manager/tool-bar';
+import { useRequest } from 'ahooks';
 
 const getPageList = async () => {
   'use server';

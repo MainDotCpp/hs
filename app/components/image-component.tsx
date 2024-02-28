@@ -6,6 +6,12 @@ import { useEffect } from 'react';
 import { usePageStore } from '@/app/store/use-page-store';
 import { logClick } from '@/app/actions/page-actions';
 import { useParams, useRouter } from 'next/navigation';
+import {
+  ProForm,
+  ProFormDigit,
+  ProFormText,
+  ProFormUploadButton,
+} from '@ant-design/pro-components';
 
 type ImageComponent = {
   src: string;
@@ -59,70 +65,31 @@ export const ImageConfig = ({
   componentSchema: Prisma.JsonValue;
 }) => {
   const schema = componentSchema as ImageComponent;
-  const { handleSubmit, register, setValue } = useForm();
   const saveComponent = usePageStore((state) => state.saveComponent);
-  const onSubmit = (values: any) => {
-    console.log(values);
-    saveComponent(values);
+  const onSubmit = async (values: any) => {
+    saveComponent({ ...schema, ...values });
   };
-  useEffect(() => {
-    setValue('src', schema.src);
-    setValue('padding_x', schema.padding_x);
-    setValue('padding_y', schema.padding_y);
-    setValue('shadow_level', schema.shadow_level);
-    setValue('link', schema.link);
-  }, [schema]);
   return (
     <div key={schema.src}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container gap={1}>
-          <Input
-            {...register('type')}
-            defaultValue='image'
-            className='hidden'
-            fullWidth></Input>
-          <Grid md={12}>
-            <InputLabel>图片地址</InputLabel>
-            <Input
-              {...register('src')}
-              defaultValue={schema.src}
-              fullWidth></Input>
-          </Grid>
-          <Grid md={6}>
-            <InputLabel>左右边距</InputLabel>
-            <Input
-              {...register('padding_x')}
-              defaultValue={0}
-              fullWidth></Input>
-          </Grid>
-          <Grid md={5}>
-            <InputLabel>上下边距</InputLabel>
-            <Input
-              {...register('padding_y')}
-              defaultValue={0}
-              fullWidth></Input>
-          </Grid>
-          <Grid md={12}>
-            <InputLabel>阴影</InputLabel>
-            <Slider
-              {...register('shadow_level')}
-              defaultValue={0}
-              valueLabelDisplay='auto'
-              step={1}
-              marks
-              min={0}
-              max={5}
-            />
-          </Grid>
-          <Grid md={12}>
-            <InputLabel>点击图片跳转地址</InputLabel>
-            <Input {...register('link')} fullWidth></Input>
-          </Grid>
-          <Button type='submit' fullWidth variant='outlined'>
-            保存
-          </Button>
-        </Grid>
-      </form>
+      <ProForm
+        onValuesChange={onSubmit}
+        initialValues={schema}
+        submitter={false}>
+        <ProFormUploadButton
+          action='/api/file'
+          onChange={(info) => {
+            if (info.file.status === 'done') {
+              onSubmit({ src: info.file.response.path }).then();
+            }
+          }}
+          name='src'>
+          上传图片
+        </ProFormUploadButton>
+        <ProFormText name='type' hidden></ProFormText>
+        <ProFormDigit name='padding_x' label='左右边距'></ProFormDigit>
+        <ProFormDigit name='padding_y' label='上下边距'></ProFormDigit>
+        <ProFormText name='link' label='点击跳转地址'></ProFormText>
+      </ProForm>
     </div>
   );
 };
