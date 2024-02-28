@@ -81,8 +81,7 @@ export const ImageConfig = ({
             if (info.file.status === 'done') {
               onSubmit({ src: info.file.response.path }).then();
             }
-          }}
-          name='src'>
+          }}>
           上传图片
         </ProFormUploadButton>
         <ProFormText name='type' hidden></ProFormText>
