@@ -77,9 +77,9 @@ export const ImageConfig = ({
         submitter={false}>
         <ProFormUploadButton
           action='/api/file'
-          onChange={(info) => {
+          onChange={async (info) => {
             if (info.file.status === 'done') {
-              onSubmit({ src: info.file.response.path }).then();
+              await onSubmit({ src: info.file.response.path });
             }
           }}>
           上传图片
