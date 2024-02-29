@@ -1,12 +1,10 @@
-import { PrismaClient } from '@prisma/client';
 import PageCard from './components/page-card';
 import ToolBar from '@/app/admin/page-manager/tool-bar';
-import { useRequest } from 'ahooks';
+import { mainDb } from '@/prisma/main-db';
 
 const getPageList = async () => {
   'use server';
-  const prisma = new PrismaClient();
-  const pages = await prisma.t_page.findMany();
+  const pages = await mainDb.t_page.findMany();
   return pages;
 };
 const PageManager = async () => {

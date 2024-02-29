@@ -1,11 +1,10 @@
 'use server';
-import { PrismaClient } from '@prisma/client';
+import { mainDb } from '@/prisma/main-db';
 
 export const getPage = async (pageId: string) => {
   'use server';
   console.log(`[获取页面数据]pageId=${pageId}`);
-  const prisma = new PrismaClient();
-  return prisma.t_page.findFirst({
+  return mainDb.t_page.findFirst({
     where: {
       id: pageId,
     },

@@ -1,5 +1,5 @@
 'use client';
-import { Prisma } from '@prisma/client';
+import { Prisma, t_page } from '@prisma/client';
 import { CircularProgress, Container } from '@mui/material';
 import { ImageComponent, ImageConfig } from '@/app/components/image-component';
 import { useRequest } from 'ahooks';
@@ -42,13 +42,15 @@ export const switchComponentConfig = (item: Prisma.JsonObject) => {
 const PageRender = ({
   pageId,
   mode = 'show',
+  pageData,
 }: {
   pageId: string;
+  pageData?: t_page;
   mode?: 'edit' | 'show';
 }) => {
   const page = usePageStore((state) => state.page);
   const setPage = usePageStore((state) => state.setPage);
-  const { loading } = useRequest(() => getPage(pageId), {
+  const { loading } = useRequest(() => pageData || getPage(pageId), {
     onSuccess: (page) => {
       const suffix = mode === 'edit' ? '[编辑]' : '';
       if (page) {

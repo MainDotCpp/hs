@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse, userAgent } from 'next/server';
+import { mainDb } from '@/prisma/main-db';
 
 export const POST = async (req: NextRequest) => {
   const agent = userAgent(req);
   let { headers } = req;
-  let prisma = new PrismaClient();
-  await prisma.t_visit_log.create({
+  await mainDb.t_visit_log.create({
     data: {
       host: agent.browser.name,
       user_agent: agent.engine.name,
