@@ -7,6 +7,10 @@ import { getPage } from '@/app/admin/page-designer/[pageId]/action';
 import { usePageStore } from '@/app/store/use-page-store';
 import DragComponentBox from './drag-component-box';
 import { DraftComponent, DraftConfig } from '@/app/components/draft-component';
+import {
+  SwiperComponent,
+  SwiperConfig,
+} from '@/app/components/swiper-component';
 
 /**
  * 选择渲染的组件
@@ -18,8 +22,10 @@ export const switchComponent = (item: Prisma.JsonObject) => {
       return <ImageComponent componentSchema={item}></ImageComponent>;
     case 'draft':
       return <DraftComponent componentSchema={item} />;
+    case 'swiper':
+      return <SwiperComponent componentSchema={item} />;
   }
-  return <div>未配置组件 - {item['type']}</div>;
+  return <div>未配置组件</div>;
 };
 export const switchComponentConfig = (item: Prisma.JsonObject) => {
   switch (item['type']) {
@@ -27,8 +33,10 @@ export const switchComponentConfig = (item: Prisma.JsonObject) => {
       return <ImageConfig componentSchema={item}></ImageConfig>;
     case 'draft':
       return <DraftConfig componentSchema={item} />;
+    case 'swiper':
+      return <SwiperConfig componentSchema={item} />;
   }
-  return <div>{JSON.stringify(item)} - 未配置组件</div>;
+  return <div>未配置组件</div>;
 };
 
 const PageRender = ({
@@ -40,7 +48,7 @@ const PageRender = ({
 }) => {
   const page = usePageStore((state) => state.page);
   const setPage = usePageStore((state) => state.setPage);
-  const { loading, error } = useRequest(() => getPage(pageId), {
+  const { loading } = useRequest(() => getPage(pageId), {
     onSuccess: (page) => {
       const suffix = mode === 'edit' ? '[编辑]' : '';
       if (page) {
@@ -52,7 +60,10 @@ const PageRender = ({
   let schema = page?.content as Prisma.JsonArray;
   return (
     <>
-      <Container disableGutters maxWidth={'xs'}>
+      <Container
+        disableGutters
+        maxWidth={'xs'}
+        className='relative flex flex-col'>
         {loading && (
           <div className='h-screen flex justify-center items-center'>
             <CircularProgress color='inherit' />
